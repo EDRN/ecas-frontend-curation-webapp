@@ -1,0 +1,19 @@
+<!--
+ // Copyright (c) 2008, California Institute of Technology.
+// ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
+// 
+// $Id$
+-->
+   
+<Context path="/ecas-curation" docBase="/usr/local/ecas-curator/ecas-curation-0.1.war">
+
+	<Parameter name="gov.nasa.jpl.edrn.ecas.metExtractorConf.uploadPath"
+		value="[EDRN_ECAS_HOME]/aux/met_def/ecas_curator" />
+
+	<Parameter name="gov.nasa.jpl.edrn.ecas.dataDefinition.uploadPath"
+		value="[EDRN_ECAS_HOME]/filemgr/policy" />
+		
+	<Parameter name="gov.nasa.jpl.edrn.ecas.url"
+	    value="http://localhost:9000"/>
+
+</Context>

@@ -1,0 +1,47 @@
+@CHARSET "UTF-8";
+ul.iconified {
+	margin:0px;
+	margin-left:-10px;
+	padding:0px;
+	list-style:none;	
+}
+
+ul.iconified li {
+	padding-left:10px;
+	display:inline;
+}
+a {
+	color:#222;
+	text-decoration:none;
+}
+a:hover {
+	text-decoration:underline;
+}
+a.actionlink {
+	color:#48a;
+	padding-left:5px;	
+}
+div#breadcrumbs a {
+	color:#fff;
+}
+div.wizardContent {
+	margin:10px;
+	padding-left:10px;
+	padding-right:10px;
+	border:solid 1px #aaa;
+}
+
+div.wizardContent h5 {
+	background-color:#eee;
+	padding:5px;
+	font-size:13px;
+	font-weight:normal;
+	margin-top:20px;
+	margin-bottom:5px;
+}
+div.wizardContent span.hint {
+	font-size:11px;
+	color:#666;
+	font-style:italic;
+	padding-left:15px;
+}

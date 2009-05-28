@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>ecas-curate</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<servlet>
+		<servlet-name>BeginIngestionTaskServlet</servlet-name>
+		<servlet-class>gov.nasa.jpl.edrn.ecas.curation.servlet.BeginIngestionTaskServlet</servlet-class>
+	</servlet>
+    
+    <servlet>
+    	<servlet-name>UploadDatasetDefinitionServlet</servlet-name>
+    	<servlet-class>gov.nasa.jpl.edrn.ecas.curation.servlet.UploadDatasetDefinitionServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+    	<servlet-name>UploadPolicyServlet</servlet-name>
+    	<servlet-class>gov.nasa.jpl.edrn.ecas.curation.servlet.UploadPolicyServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+    	<servlet-name>UploadMetExtractorConfigServlet</servlet-name>
+    	<servlet-class>gov.nasa.jpl.edrn.ecas.curation.servlet.UploadMetExtractorConfigServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+    	<servlet-name>ShowStagingAreaServlet</servlet-name>
+    	<servlet-class>gov.nasa.jpl.edrn.ecas.curation.servlet.ShowStagingAreaServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+    	<servlet-name>ShowExistingPoliciesServlet</servlet-name>
+    	<servlet-class>gov.nasa.jpl.edrn.ecas.curation.servlet.ShowExistingPoliciesServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>ShowExistingDatasetsByPolicyServlet</servlet-name>
+        <servlet-class>gov.nasa.jpl.edrn.ecas.curation.servlet.ShowExistingDatasetsByPolicyServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+    	<servlet-name>UploadDatasetDefinitionServlet</servlet-name>
+    	<url-pattern>/uploadDatasetDefinitionFiles</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>UploadPolicyServlet</servlet-name>
+    	<url-pattern>/uploadPolicy</url-pattern>
+    </servlet-mapping>
+	<servlet-mapping>
+    	<servlet-name>UploadMetExtractorConfigServlet</servlet-name>
+    	<url-pattern>/uploadMetExtractorConfig</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>ShowStagingAreaServlet</servlet-name>
+    	<url-pattern>/showStagingArea</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>ShowExistingPoliciesServlet</servlet-name>
+    	<url-pattern>/showExistingPolicies</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowExistingDatasetsByPolicyServlet</servlet-name>
+        <url-pattern>/showExistingDatasetsByPolicy</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>BeginIngestionTaskServlet</servlet-name>
+    	<url-pattern>/beginIngestionTask</url-pattern>
+    </servlet-mapping>
+
+</web-app>

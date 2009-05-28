@@ -1,0 +1,49 @@
+EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
+
+
+Release Notes - Early Detection of Cancer - Version eCAS Curator beta 0.1.0 release - 05/27/2009
+
+
+
+** Task
+    * [CA-291] - build policy upload page
+    * [CA-303] - eCAS curator script
+    * [CA-316] - slides for Kristen/Heather
+    * [CA-317] - Create a repeatable sample ingestion dataset and sample data products
+    * [CA-318] - place metaextractor basis and configuration file somewhere accessible (cancer?)
+    * [CA-320] - bounce FM after upload
+
+
+
+
+
+Release Notes - Early Detection of Cancer - Version eCAS Curator alpha 0.1.0 release - 05/01/2009
+
+** Bug
+    * [CA-298] - replace env var is not looking in the right place
+    * [CA-299] - metextConfigFilePath session is not set
+
+** New Feature
+    * [CA-218] - Solidify DataCurationMgr API
+    * [CA-270] - Link controller into Crawler backend API for running ingestion
+    * [CA-271] - Link model into Crawler backend API for looking up action definitions
+
+** Task
+    * [CA-268] - integrate backend with curation frontend - breakdown of specific sub components
+    * [CA-278] - organize code logically into 'views' and 'controllers'
+    * [CA-286] - provide view of staging area as HTML list
+    * [CA-287] - provide parameterized view of ingest area as HTML list
+    * [CA-288] - handle upload of met-extractor config file
+    * [CA-289] - handle upload of policy file
+    * [CA-290] - build policy selection page
+    * [CA-291] - build policy upload page
+    * [CA-292] - build met extractor selection page
+
+** Improvement
+    * [CA-279] - remove hardcoded breadcrumbs and replace with dynamic version
+    * [CA-280] - Combine login_status.jsp and header.jsp
+    * [CA-281] - Come up with better names for the ingestion steps
+    * [CA-282] - Use the existing text from CAS Filemanager for the Ingestion Option hints
+    * [CA-284] - extend filemgr client and server to serve specific eCAS needs
+    * [CA-293] - upload dataset definition page should return user to ingestData when finished
+
