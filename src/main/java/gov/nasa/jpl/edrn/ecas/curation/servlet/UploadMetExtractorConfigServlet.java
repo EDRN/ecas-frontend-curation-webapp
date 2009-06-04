@@ -91,7 +91,7 @@ public class UploadMetExtractorConfigServlet extends HttpServlet {
 							pathKeyName));
 
 			HttpSession session = request.getSession();
-
+			session.removeAttribute("metextConfigFilePath");
 			
 			// make sure that the target (policy) directory exists first 
 			
