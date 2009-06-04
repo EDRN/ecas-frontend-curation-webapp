@@ -86,6 +86,11 @@ public class BeginIngestionTaskServlet extends HttpServlet {
 
     // turn em' loose
     ecasCrawler.crawl();
+    
+    // now we should explicitly destroy various sessions for cleanup
+    HttpSession session = req.getSession();
+    session.removeAttribute("metextPrettyName");
+    session.removeAttribute("metext");
 
     // Transfer control to the next step in the process
     res.sendRedirect(req.getContextPath() + "/home.jsp");
