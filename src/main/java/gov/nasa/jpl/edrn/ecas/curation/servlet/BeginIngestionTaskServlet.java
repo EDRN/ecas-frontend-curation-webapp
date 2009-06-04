@@ -91,6 +91,7 @@ public class BeginIngestionTaskServlet extends HttpServlet {
     HttpSession session = req.getSession();
     session.removeAttribute("metextPrettyName");
     session.removeAttribute("metext");
+    session.removeAttribute("metextConfigFilePath");
 
     // Transfer control to the next step in the process
     res.sendRedirect(req.getContextPath() + "/home.jsp");
