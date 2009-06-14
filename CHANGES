@@ -1,6 +1,23 @@
 EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+
+Release Notes - Early Detection of Cancer - Version eCAS Curator beta 0.1.1 release - 06/14/2009
+
+** Bug
+    * [CA-325] - aux/met_def/ecas_curator directory must exist before ingestion can occur
+    * [CA-328] - need to explicitly destroy sessions after successful ingestion
+    * [CA-330] - Changing the webapp name to ecas-curation broke some urls
+
+** New Feature
+    * [CA-323] - Redirect to home.jsp after ingestion
+
+** Task
+    * [CA-255] - revisit ecas installer for quick and desployment of ecas releases
+
+
+
+
 Release Notes - Early Detection of Cancer - Version eCAS Curator beta 0.1.0 release - 05/27/2009
 
 
