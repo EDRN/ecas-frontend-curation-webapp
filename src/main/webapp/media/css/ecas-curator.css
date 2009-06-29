@@ -1,4 +1,14 @@
 @CHARSET "UTF-8";
+
+/* structural */
+div#page-sheet {
+	background-color:#ddd;
+	width:944px;
+	margin:0px auto;
+	padding:10px 10px 19px 10px;
+}
+
+
 ul.iconified {
 	margin:0px;
 	margin-left:-10px;
@@ -44,4 +54,25 @@ div.wizardContent span.hint {
 	color:#666;
 	font-style:italic;
 	padding-left:15px;
+}
+
+/* tab styles */
+span.tabLabel {
+	font-family:Georgia,Times,serif;
+	font-size:1.0em;
+	font-style:italic;
+	color:#777;	
+	padding-left:80px;
+	padding-top:50px;
+}
+
+/* growl styles */
+
+div.growlUI h1 {
+	font-size:1.2em;
+}
+div.growlUI h2 {
+	font-size:1.1em;
+	text-align:left;
+	padding-left:8px;
 }
