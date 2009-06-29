@@ -41,7 +41,7 @@
 	<center>
 	<div style="padding-left:10px;padding:10px;">
 	<img src="media/img/ingestion.png" style="border-style: none"/><br/>
-	<a href=ingestData.jsp?step=2>Add Data to eCAS</a>
+	<a href=ingestData.jsp>Add Data to eCAS</a>
 	</div>
 	<div style="padding-left:10px;padding:10px;">
 	<img src="media/img/curation.png" style="border-style: none"/><br/>
