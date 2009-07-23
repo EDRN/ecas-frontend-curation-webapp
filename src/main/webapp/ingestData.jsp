@@ -28,7 +28,7 @@ session.setAttribute("breadcrumbs",new String[] {"Add Data to eCAS"});
 	$(document).ready(function() {
 		// Load up the tree view for the staging area
 		$("#policyView").treeview({
-			url: "/ecas-curation-webapp/showExistingPolicies"
+			url: "showExistingPolicies"
 			
 		});
 		// Enable the tabbed interface

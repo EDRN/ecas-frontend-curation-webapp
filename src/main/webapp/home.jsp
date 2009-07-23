@@ -45,7 +45,7 @@
 	</div>
 	<div style="padding-left:10px;padding:10px;">
 	<img src="media/img/curation.png" style="border-style: none"/><br/>
-	<a href="manageDataSet.jsp">Manage Dataset Definitions</a>
+	<a href="manageDataset.jsp">Manage Dataset Definitions</a>
 	</div>
 	</center>
 	<div class="clr"><!--  --></div>
