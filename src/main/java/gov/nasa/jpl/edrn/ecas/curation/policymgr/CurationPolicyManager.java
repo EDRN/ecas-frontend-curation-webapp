@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
@@ -144,6 +145,21 @@ public class CurationPolicyManager {
 
 		return buf;
 	}	
+	
+	public Hashtable getProductTypeMetaData(String policyName, String ProductTypeName) {
+		String policyPath = policyDirectory;
+		String policyFile = policyPath + "/" + policyName + "/product-types.xml";
+	
+		// parse the policy file
+		XMLMetaDataParser xmp = new XMLMetaDataParser(policyFile);
+		// retrieve the hashtable of {name => metadata hashtable} 
+		// structures for all datasets.
+		Hashtable productTypeMetaData = xmp.getProductTypes();
+		
+		Hashtable metadataItems = (Hashtable)productTypeMetaData.get(ProductTypeName);
+	
+		return metadataItems;
+	}
 	
 	private String[] getFilesInDirectory(String directory) {
 		File dir = new File(directory);
