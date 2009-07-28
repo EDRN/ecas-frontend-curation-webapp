@@ -61,7 +61,8 @@ public class XMLMetaDataParser {
     }
     
     public Hashtable getProductTypes() { 
-    	Hashtable<String, Hashtable> tmpProductTypes;
+    	//Hashtable<String, Hashtable> tmpProductTypes;
+    	Hashtable<String, CasProductType> tmpProductTypes;
     	CasProductType cpt;
     	// integer index to the sub-list of items
     	// from the product-type DOM tree
@@ -79,10 +80,11 @@ public class XMLMetaDataParser {
     		cpt.setId(e.getAttribute("id"));
     		cpt.setName(e.getAttribute("name"));
     		
+    		// retrieve the product-type file management metadata and description
     		NodeList sublist = e.getChildNodes();
+    		
     		j = 1; 
     		Element el = (Element)sublist.item(j);
-    		
     		// set repository path
     		cpt.setRepositoryPath(el.getTextContent());
     		
@@ -99,36 +101,78 @@ public class XMLMetaDataParser {
     		//---------------------------------------------
     		// metExtractor structure parsed starting here
     		j += 2;
-    		
-    		String extractorKey;
-    		
-    		Element metExtractors = (Element)sublist.item(j);
-    		NodeList extractors = metExtractors.getElementsByTagName("extractor");
-    		
-    		Element extractClass = (Element)extractors.item(0);
-    		extractorKey = extractClass.getAttribute("class");
-    		
-    		Hashtable tmpMetExtractors = new Hashtable();    		
-   		
-    		NodeList cfgPropert = extractClass.getElementsByTagName("configuration");
-    		Element cfgElement = (Element) cfgPropert.item(0);
-    		Element cfg = (Element)cfgPropert.item(0);		
+    		for ( ; j < sublist.getLength(); j += 2) {
     			
-       		NodeList cfgs = cfg.getElementsByTagName("property");
-       		
-       		Hashtable configuration = new Hashtable();		
-       		
-    		for (int k = 0; k < cfgs.getLength(); k++) {
-    			Element tmpProperty = (Element)cfgs.item(k);
+	    		//String extractorKey;
+	    		
+	    		Element metExtractors = (Element)sublist.item(j);
+	    		NodeList extractors = metExtractors.getElementsByTagName("extractor");
+	    		
+	    		if (sublist.getLength() > 0 && ((Element)sublist.item(j)).getTagName().equals("metExtractor")) {
+		    		Element extractClass = (Element)extractors.item(0);
+		    		String extractorKey = extractClass.getAttribute("class");
+		    		
+		    		Hashtable tmpMetExtractors = new Hashtable();    		
+		   		
+		    		NodeList cfgPropert = extractClass.getElementsByTagName("configuration");
+		    		Element cfgElement = (Element) cfgPropert.item(0);
+		    		Element cfg = (Element)cfgPropert.item(0);		
+		    			
+		       		NodeList cfgs = cfg.getElementsByTagName("property");
+		       		
+		       		Hashtable configuration = new Hashtable();		
+		       		
+		    		for (int k = 0; k < cfgs.getLength(); k++) {
+		    			Element tmpProperty = (Element)cfgs.item(k);
+		
+		    			String propName = tmpProperty.getAttribute("name");
+		    			String propValue = tmpProperty.getAttribute("value");  			
+		    			configuration.put(propName, propValue);
+		    		}
+		    		
+		    		tmpMetExtractors.put(extractorKey, configuration);
+		    		cpt.configuration = tmpMetExtractors;
+		    		
+		    		
+	    		} else if (sublist.getLength() > 0 && ((Element)sublist.item(j)).getTagName().equals("metadata")) {
+	    			// parse metaData
+	        		String metaKey, metaVal;
 
-    			String propName = tmpProperty.getAttribute("name");
-    			String propValue = tmpProperty.getAttribute("value");  			
-    			configuration.put(propName, propValue);
-
+	        		// grab metadata tree
+	        		Element metadataTag = (Element) sublist.item(j);
+	    			
+	        		// grab key,value nodes from metadata branch
+	        		NodeList keyValPairs = metadataTag.getChildNodes();
+	        		for (int n = 1; n < keyValPairs.getLength(); ) {
+	        			// retrieve each key/val pair
+	        			Element keyVal = (Element)keyValPairs.item(n);
+	        			NodeList keyValList = keyVal.getChildNodes();
+	        			
+	        			Element key = (Element)keyValList.item(1);
+	        			Element val = (Element)keyValList.item(3);
+	        			
+	        			metaKey = key.getTextContent();
+	        			metaVal = val.getTextContent();
+	        			
+	        			cpt.setMetaDataValue(metaKey, metaVal);
+	        			n += 2;
+	        		}
+	        		// populate tmpProductTypes string => hashtable
+	        		//tmpProductTypes.put(cpt.name, cpt.metadata);
+	        		tmpProductTypes.put(cpt.name, cpt);
+	    		}
+	    		
+	    		
+    		}
+    		if (cpt.metadata.size() == 0) {
+    			//System.out.println("no metadata definitions found");
+    			//tmpProductTypes.put(cpt.name, cpt.metadata);
+        		tmpProductTypes.put(cpt.name, cpt);
     		}
     		//---------------------------------------------
     		// Metadata extraction starts here
     		j += 2;
+		/*
     		String metaKey, metaVal;
 
     		// grab metadata tree
@@ -136,7 +180,7 @@ public class XMLMetaDataParser {
 			
     		// grab key,value nodes from metadata branch
     		NodeList keyValPairs = metadataTag.getChildNodes();
-    		for (int n=1; n < keyValPairs.getLength(); ) {
+    		for (int n = 1; n < keyValPairs.getLength(); ) {
     			// retrieve each key/val pair
     			Element keyVal = (Element)keyValPairs.item(n);
     			NodeList keyValList = keyVal.getChildNodes();
@@ -152,8 +196,9 @@ public class XMLMetaDataParser {
     		}
     		// populate tmpProductTypes string => hashtable
     		tmpProductTypes.put(cpt.name, cpt.metadata);
-
+*/
     	}
+    	System.out.println("tmpProductTypes size: " + tmpProductTypes.size());
     	// return CasProductType hashtable 
     	return tmpProductTypes; 
     }

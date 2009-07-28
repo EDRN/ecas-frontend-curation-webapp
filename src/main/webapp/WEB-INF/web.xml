@@ -46,6 +46,15 @@
         <servlet-class>gov.nasa.jpl.edrn.ecas.curation.servlet.ShowExistingDatasetsByPolicyServlet</servlet-class>
     </servlet>
     
+    <servlet>
+    	<servlet-name>UpdateDatasetMetaDataServlet</servlet-name>
+    	<servlet-class>gov.nasa.jpl.edrn.ecas.curation.servlet.UpdateDatasetMetaDataServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+    	<servlet-name>UpdateDatasetMetaDataServlet</servlet-name>
+    	<url-pattern>/updateDatasetMetaData</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
     	<servlet-name>UploadDatasetDefinitionServlet</servlet-name>
     	<url-pattern>/uploadDatasetDefinitionFiles</url-pattern>

@@ -156,9 +156,14 @@ public class CurationPolicyManager {
 		// structures for all datasets.
 		Hashtable productTypeMetaData = xmp.getProductTypes();
 		
-		Hashtable metadataItems = (Hashtable)productTypeMetaData.get(ProductTypeName);
-	
-		return metadataItems;
+		// old form - from when we only hashed metadata items
+		//Hashtable metadataItems = (Hashtable)productTypeMetaData.get(ProductTypeName);
+		
+		// new form - where we hash an instance of the CPT class.
+		CasProductType cpt = (CasProductType)productTypeMetaData.get(ProductTypeName);
+		//Hashtable metadataItems = cpt.metadata;
+		return productTypeMetaData;
+		//return metadataItems;
 	}
 	
 	private String[] getFilesInDirectory(String directory) {
