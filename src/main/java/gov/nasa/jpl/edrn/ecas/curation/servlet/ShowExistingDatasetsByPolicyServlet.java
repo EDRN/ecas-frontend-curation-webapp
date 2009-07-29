@@ -35,7 +35,7 @@ public class ShowExistingDatasetsByPolicyServlet extends HttpServlet {
 	public void doPost (HttpServletRequest req, HttpServletResponse res) 
 	  throws ServletException, IOException {
     HttpSession session = req.getSession();
-    session.setAttribute("errorMsg","You must use POST to access this page");
+    session.setAttribute("errorMsg","You must use GET to access this page");
     RequestDispatcher dispatcher = 
       getServletContext().getRequestDispatcher("/error.jsp");
     dispatcher.forward(req,res);

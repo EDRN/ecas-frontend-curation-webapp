@@ -152,18 +152,14 @@ public class CurationPolicyManager {
 	
 		// parse the policy file
 		XMLMetaDataParser xmp = new XMLMetaDataParser(policyFile);
-		// retrieve the hashtable of {name => metadata hashtable} 
-		// structures for all datasets.
-		Hashtable productTypeMetaData = xmp.getProductTypes();
+		// retrieve a hashtable of {product type name => product type policy}
+		// for all datasets from the dataset collection.
+		Hashtable<String, CasProductType> productTypeMetaData = xmp.getProductTypes();
 		
-		// old form - from when we only hashed metadata items
-		//Hashtable metadataItems = (Hashtable)productTypeMetaData.get(ProductTypeName);
+		// retrieve the product type to be updated. store as CasProductType instance.
+		CasProductType cpt = (CasProductType) productTypeMetaData.get(ProductTypeName);
 		
-		// new form - where we hash an instance of the CPT class.
-		CasProductType cpt = (CasProductType)productTypeMetaData.get(ProductTypeName);
-		//Hashtable metadataItems = cpt.metadata;
 		return productTypeMetaData;
-		//return metadataItems;
 	}
 	
 	private String[] getFilesInDirectory(String directory) {

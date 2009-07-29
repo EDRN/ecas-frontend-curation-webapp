@@ -40,7 +40,7 @@ public class ShowStagingAreaServlet extends HttpServlet {
 	  throws ServletException, IOException {
 	  
     HttpSession session = req.getSession();
-    session.setAttribute("errorMsg","You must use POST to access this page");
+    session.setAttribute("errorMsg","You must use GET to access this page");
     RequestDispatcher dispatcher = 
       getServletContext().getRequestDispatcher("/error.jsp");
     dispatcher.forward(req,res);

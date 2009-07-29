@@ -1,28 +1,40 @@
 package gov.nasa.jpl.edrn.ecas.curation.policymgr;
 
-/**
- * TODO XML validation against a DTD/schema?
- * 
- */
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Hashtable;
-import javax.xml.parsers.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
- * Reads an eCAS metadata configuration file and constructs
- * a collection of objects to represent the dataset policies
- * mapping product types and elements to each other.
+ * XMLMetaDataParser handles reading configuration details
+ * for elements and product types from their XML policy files.
  * 
  * @author aclark
  *
  */
 public class XMLMetaDataParser {
+	private Document doc;
 	private Element root;
 	
+	/**
+	 * The constructor loads a policy file for parsing by 
+	 * either of the two utility methods, getElements or 
+	 * getProductTypes.
+	 * 
+	 * @param filename	The name of the XML policy file to parse for 
+	 * 					configuration details.
+	 */
     XMLMetaDataParser(String filename) {
-    	Document doc = parseXmlFile(filename);                     
+    	doc = parseXmlFile(filename);                     
 
     	if (doc == null) 
     		return;
@@ -31,8 +43,16 @@ public class XMLMetaDataParser {
         root = doc.getDocumentElement();
     }
  
-    //public Hashtable<String, CasElement> getElements() { return null; }    
-    public Hashtable getElements() { 
+    /**
+     * getElements() will retrieve all of the elements from 
+     * a policy file for a given dataset collection and 
+     * instantiate a collection of objects with their details. 
+     * 
+     * @returns	Returns a Hashtable<String, CasElement> of all elements
+     * 			found in the elements.xml policy file. The hashtable maps
+     * 			element names to their objects. 
+     */
+    public Hashtable<String, CasElement> getElements() { 
     	Hashtable tmpElements = new Hashtable();
     	String id, name, strDesc;
     	CasElement c;
@@ -60,154 +80,153 @@ public class XMLMetaDataParser {
     	return tmpElements; 
     }
     
-    public Hashtable getProductTypes() { 
-    	//Hashtable<String, Hashtable> tmpProductTypes;
-    	Hashtable<String, CasProductType> tmpProductTypes;
-    	CasProductType cpt;
-    	// integer index to the sub-list of items
-    	// from the product-type DOM tree
-    	int j;
+    /**
+     * getProductTypes() parses a product type policy
+     * file to retrieve all available configuration information
+     * for a given dataset. 
+     * 
+     * @returns	A Hashtable<String, CasProductType> of product
+     * type information read from a policy file. Product type
+     * metadata, extractor configuration, and file management 
+     * information (e.g. versioner class, repository path) is 
+     * stored in each object. Product type names are mapped to 
+     * their corresponding objects in the hashtable.
+     * 
+     */
+    public Hashtable<String, CasProductType> getProductTypes() { 
+    	Hashtable<String, CasProductType> tmpProductTypes = null; 
+    	CasProductType cpt = null;
     	
-    	tmpProductTypes = new Hashtable();
-    	
-    	// <type>
+    	tmpProductTypes = new Hashtable<String, CasProductType>();
+    	// <type> branch 
     	NodeList list = root.getElementsByTagName("type");
+
     	for (int i = 0; i < list.getLength(); i++) {
-    		
+    		Node typeNode, childNode;
+    		// instantiate new product type object
     		cpt = new CasProductType();
-    		Element e = (Element)list.item(i);
+    		typeNode = (Node)list.item(i);    	
     		
+    		Element e = (Element) typeNode;    		
     		cpt.setId(e.getAttribute("id"));
-    		cpt.setName(e.getAttribute("name"));
+    		cpt.setName(e.getAttribute("name"));	
     		
     		// retrieve the product-type file management metadata and description
-    		NodeList sublist = e.getChildNodes();
+    		NodeList sublist = e.getElementsByTagName("repositoryPath");
     		
-    		j = 1; 
-    		Element el = (Element)sublist.item(j);
     		// set repository path
-    		cpt.setRepositoryPath(el.getTextContent());
+    		if (sublist.getLength() > 0) {
+    			childNode = sublist.item(0);     		
+    			cpt.setRepositoryPath(childNode.getTextContent());
+    		}
     		
     		// set versioner class
-    		j += 2;
-    		el = (Element)sublist.item(j);
-    		cpt.setVersionerClass(el.getTextContent());
+    		sublist = e.getElementsByTagName("versionerClass");
+    		if (sublist.getLength() > 0) {
+    			childNode = sublist.item(0);     		
+    			cpt.setVersionerClass(childNode.getTextContent());
+    		}
     		
-    		// description
-    		j += 2;
-    		el = (Element)sublist.item(j);
-    		cpt.setDescription(el.getTextContent());
+    		// set description
+    		sublist = e.getElementsByTagName("description");
+    		if (sublist.getLength() > 0) {
+    			childNode = sublist.item(0);     		
+    			cpt.setDescription(childNode.getTextContent());
+    		}    	    		
+    	 	
+    		// parse any extractors
+    		sublist = e.getElementsByTagName("metExtractors");
+    		if (sublist.getLength() > 0) {
+    			childNode = sublist.item(0);
+    			Element tmp = (Element)childNode;
 
-    		//---------------------------------------------
-    		// metExtractor structure parsed starting here
-    		j += 2;
-    		for ( ; j < sublist.getLength(); j += 2) {
+    			NodeList extractors = tmp.getElementsByTagName("extractor");
+    			if (extractors.getLength() > 0) {
+    				for (int m = 0; m < extractors.getLength(); m++) {
+	    				Element tmpExtractor = (Element)extractors.item(m);
+		    			String extractorKey = tmpExtractor.getAttribute("class");
+			    		
+			    		NodeList config = tmp.getElementsByTagName("configuration");
+			    		// parse configuration properties
+			    		if (config.getLength() > 0) {
+				    		Node configNode = config.item(0);
+				    		Element configElement = (Element) configNode;		
+				    			
+				       		NodeList props = configElement.getElementsByTagName("property");
+				       		if (props.getLength() > 0) {		
+					    		for (int k = 0; k < props.getLength(); k++) {
+					    			Element tmpProperty = (Element)props.item(k);
+					
+					    			String propName = tmpProperty.getAttribute("name");
+					    			String propValue = tmpProperty.getAttribute("value");  			
+					    			cpt.setConfigurationPropertyValue(extractorKey, propName, propValue);
+					    		}
+				       		}
+			    		}
+    				}
+    			}
+    		}
+    		
+    		// parse metadata, if any
+    		sublist = e.getElementsByTagName("metadata");
+    		if (sublist.getLength() > 0) {
+        		// get metadata tree
+        		childNode = sublist.item(0);
+    			Element metadataTag = (Element)childNode;
     			
-	    		//String extractorKey;
-	    		
-	    		Element metExtractors = (Element)sublist.item(j);
-	    		NodeList extractors = metExtractors.getElementsByTagName("extractor");
-	    		
-	    		if (sublist.getLength() > 0 && ((Element)sublist.item(j)).getTagName().equals("metExtractor")) {
-		    		Element extractClass = (Element)extractors.item(0);
-		    		String extractorKey = extractClass.getAttribute("class");
-		    		
-		    		Hashtable tmpMetExtractors = new Hashtable();    		
-		   		
-		    		NodeList cfgPropert = extractClass.getElementsByTagName("configuration");
-		    		Element cfgElement = (Element) cfgPropert.item(0);
-		    		Element cfg = (Element)cfgPropert.item(0);		
-		    			
-		       		NodeList cfgs = cfg.getElementsByTagName("property");
-		       		
-		       		Hashtable configuration = new Hashtable();		
-		       		
-		    		for (int k = 0; k < cfgs.getLength(); k++) {
-		    			Element tmpProperty = (Element)cfgs.item(k);
-		
-		    			String propName = tmpProperty.getAttribute("name");
-		    			String propValue = tmpProperty.getAttribute("value");  			
-		    			configuration.put(propName, propValue);
-		    		}
-		    		
-		    		tmpMetExtractors.put(extractorKey, configuration);
-		    		cpt.configuration = tmpMetExtractors;
-		    		
-		    		
-	    		} else if (sublist.getLength() > 0 && ((Element)sublist.item(j)).getTagName().equals("metadata")) {
-	    			// parse metaData
-	        		String metaKey, metaVal;
-
-	        		// grab metadata tree
-	        		Element metadataTag = (Element) sublist.item(j);
-	    			
-	        		// grab key,value nodes from metadata branch
-	        		NodeList keyValPairs = metadataTag.getChildNodes();
-	        		for (int n = 1; n < keyValPairs.getLength(); ) {
+        		// get keyval nodes from metadata 
+        		NodeList keyValPairs = metadataTag.getElementsByTagName("keyval");
+        		if (keyValPairs.getLength() > 0) {        		
+	        		for (int n = 0; n < keyValPairs.getLength(); n++) {
 	        			// retrieve each key/val pair
-	        			Element keyVal = (Element)keyValPairs.item(n);
-	        			NodeList keyValList = keyVal.getChildNodes();
+	        			Element keyVal = (Element) keyValPairs.item(n);
 	        			
-	        			Element key = (Element)keyValList.item(1);
-	        			Element val = (Element)keyValList.item(3);
+	        			String metaKey = new String();
+	        			String metaVal = new String();
 	        			
-	        			metaKey = key.getTextContent();
-	        			metaVal = val.getTextContent();
-	        			
-	        			cpt.setMetaDataValue(metaKey, metaVal);
-	        			n += 2;
+	        			NodeList keyValList = keyVal.getElementsByTagName("key");
+	        			if (keyValList.getLength() > 0) {
+	        				childNode = keyValList.item(0);
+	        				metaKey = childNode.getTextContent();
+	        	    				
+		        			keyValList = keyVal.getElementsByTagName("val");
+		        			if (keyValList.getLength() > 0) {
+		        				childNode = keyValList.item(0);
+		        				metaVal = childNode.getTextContent();
+		        			}
+		        			else {
+		        				metaVal = new String("TBD");
+		        			}
+	        			} 
+	        			else {
+	        				// empty keyval node
+	        				continue;
+	        			}
+        				cpt.setMetaDataValue(metaKey, metaVal);
 	        		}
-	        		// populate tmpProductTypes string => hashtable
-	        		//tmpProductTypes.put(cpt.name, cpt.metadata);
-	        		tmpProductTypes.put(cpt.name, cpt);
-	    		}
-	    		
-	    		
+        		}
     		}
-    		if (cpt.metadata.size() == 0) {
-    			//System.out.println("no metadata definitions found");
-    			//tmpProductTypes.put(cpt.name, cpt.metadata);
-        		tmpProductTypes.put(cpt.name, cpt);
-    		}
-    		//---------------------------------------------
-    		// Metadata extraction starts here
-    		j += 2;
-		/*
-    		String metaKey, metaVal;
-
-    		// grab metadata tree
-    		Element metadataTag = (Element) sublist.item(j);
-			
-    		// grab key,value nodes from metadata branch
-    		NodeList keyValPairs = metadataTag.getChildNodes();
-    		for (int n = 1; n < keyValPairs.getLength(); ) {
-    			// retrieve each key/val pair
-    			Element keyVal = (Element)keyValPairs.item(n);
-    			NodeList keyValList = keyVal.getChildNodes();
-    			
-    			Element key = (Element)keyValList.item(1);
-    			Element val = (Element)keyValList.item(3);
-    			
-    			metaKey = key.getTextContent();
-    			metaVal = val.getTextContent();
-    			
-    			cpt.setMetaDataValue(metaKey, metaVal);
-    			n += 2;
-    		}
-    		// populate tmpProductTypes string => hashtable
-    		tmpProductTypes.put(cpt.name, cpt.metadata);
-*/
+    		// populate tmpProductTypes {string => hashtable}
+			tmpProductTypes.put(cpt.name, cpt);
     	}
-    	System.out.println("tmpProductTypes size: " + tmpProductTypes.size());
     	// return CasProductType hashtable 
     	return tmpProductTypes; 
     }
-    
+        
+    /**
+     * Parses an XML file and returns a Document
+     * object storing that XML structure.
+     * 
+     * @param filename	The name of the XML policy 
+     * 					file to be parsed.
+     * 
+     * @returns A Document object storing the DOM tree
+     * 			of the parsed XML file.
+     */
     public static Document parseXmlFile(String filename) {
     	try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setIgnoringElementContentWhitespace(true);
-            factory.setIgnoringComments(true);
             
             // parse the XML file
             Document doc = factory.newDocumentBuilder().parse(new File(filename));
@@ -226,5 +245,4 @@ public class XMLMetaDataParser {
         }
     	return null;
     }
-    
 }

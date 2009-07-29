@@ -18,6 +18,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+// JTidy utility class
+import gov.nasa.jpl.edrn.ecas.curation.util.HTMLEncode;
+
+/**
+ * This servlet processes form data submitted via
+ * POST from the dataset metadata management tool
+ * under development for the eCAS Curator. 
+ * 
+ * Product type metadata values can be edited or
+ * replaced from the web interface. Form values are
+ * saved into their corresponding fields in a CasProductType 
+ * instance for the current product type.
+ * 
+ * @author aclark
+ *
+ */
 public class UpdateDatasetMetaDataServlet extends HttpServlet {
 	
 	public UpdateDatasetMetaDataServlet() { } 
@@ -36,57 +52,70 @@ public class UpdateDatasetMetaDataServlet extends HttpServlet {
 			return;
 		}
 		HttpSession session = req.getSession();
+
+		// read API parameters from session
 		String action = req.getParameter("action");
 		String step = req.getParameter("step");
-		
 		String policyName = req.getParameter("dsCollection");
 		String productTypeName = req.getParameter("ds");
 				
-		// print a status message to stdout for now
+		// debug messages go to stdout
 //		System.out.println("[debug]: POST processing method reached in UpdateDatasetMetaDataServlet");
 //		System.out.println("[debug]: current context path " + req.getContextPath());
 
 		// instantiate product type object 
 		CurationPolicyManager cpm = new CurationPolicyManager();
-		Hashtable metaDataItems = cpm.getProductTypeMetaData(policyName, productTypeName);
+		Hashtable<String, CasProductType> metaDataItems = cpm.getProductTypeMetaData(policyName, productTypeName);
 		
 		// get metadata hash table
 		CasProductType cpt = (CasProductType) metaDataItems.get(productTypeName);
-		Hashtable metaData = new Hashtable(cpt.metadata);		
 		
 		// get all submitted form values
 		Enumeration formKeys = req.getParameterNames();
 		
-		// update metadata values from form fields
+		// update metadata value from POST form
 		String keyName;
 	    while (formKeys.hasMoreElements()) {
 	      String keyField = (String)formKeys.nextElement();
 
-	      // extract the part we want, the metadata id
+	      // extract the metadata id from the form field
 	      String [] tokens = keyField.split("_");
-	      if (tokens.length == 2 && metaData.containsKey(tokens[1])) {
+	      if (tokens.length == 2 && cpt.containsMetaDataKey(tokens[1])) {
 	    	  keyName = tokens[1];
-		      //System.out.print("key: "+ keyName);
-	      
 			  // get the submitted values for that key
 		      String [] formValues = req.getParameterValues(keyField);
-			  // save new value
-		      metaData.put(keyName, formValues[0]);
+
+		      // save new value	
+		      // PubMedID requires HTML entity encoding because 
+		      // of hyperlinks in the metadata field.
+		      if (keyName.equals("PubMedID")) {
+	    		  cpt.setMetaDataValue(keyName, HTMLEncode.encode(formValues[0]));
+		      }
+		      else
+		    	  cpt.setMetaDataValue(keyName, formValues[0]);
 	      }
-	     }
-		
-	    // build path policy file
+	    }
+	    
+	    // build policy file path
 		String policyDirectory = "/usr/local/ecas/filemgr/policy";
 		String policyPath = policyDirectory;
 		String policyFile = policyPath + "/" + policyName + "/product-types.xml";
-	    
-		// generate XML string, write to file.
-		String xmlString = cpt.toXMLString();
 		
+		// serialize all CasProductType instances from metaDataItems hashtable
 		PrintWriter pw = new PrintWriter(new File(policyFile));
-        pw.write(xmlString);
-        pw.flush();
-        pw.close();
+		pw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		pw.write("\n");
+		pw.write("<cas:producttypes xmlns:cas=\"http://oodt.jpl.nasa.gov/1.0/cas\">\n");
+
+		for ( String s : metaDataItems.keySet()) {
+			// generate XML string
+			CasProductType tmpCpt = metaDataItems.get(s); 
+			String xmlString = tmpCpt.toXMLString();
+			pw.write(xmlString);
+		}
+		pw.flush();
+		pw.write("</cas:producttypes>\n");
+		pw.close();
         
 		// Transfer control to the next step in the process
 		res.sendRedirect(req.getContextPath() + "/manageDataset.jsp?step=" + step);
@@ -101,6 +130,5 @@ public class UpdateDatasetMetaDataServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/error.jsp");
 		dispatcher.forward(req,res);
 	}
-	
 	
 }
