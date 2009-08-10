@@ -29,12 +29,13 @@ import gov.nasa.jpl.edrn.ecas.curation.util.HTMLEncode;
  * Product type metadata values can be edited or
  * replaced from the web interface. Form values are
  * saved into their corresponding fields in a CasProductType 
- * instance for the current product type.
+ * instance.
  * 
  * @author aclark
  *
  */
 public class UpdateDatasetMetaDataServlet extends HttpServlet {
+	private Hashtable<String, CasProductType> metaDataItems;
 	
 	public UpdateDatasetMetaDataServlet() { } 
 	
@@ -51,72 +52,114 @@ public class UpdateDatasetMetaDataServlet extends HttpServlet {
 			res.sendRedirect("/login.jsp?from=" + req.getRequestURL());
 			return;
 		}
+		
 		HttpSession session = req.getSession();
 
-		// read API parameters from session
-		String action = req.getParameter("action");
-		String step = req.getParameter("step");
 		String policyName = req.getParameter("dsCollection");
 		String productTypeName = req.getParameter("ds");
-				
-		// debug messages go to stdout
-//		System.out.println("[debug]: POST processing method reached in UpdateDatasetMetaDataServlet");
-//		System.out.println("[debug]: current context path " + req.getContextPath());
-
+		String action = req.getParameter("action");
+		String step = req.getParameter("step");
+		
+		//----------------------------------------
 		// instantiate product type object 
 		CurationPolicyManager cpm = new CurationPolicyManager();
-		Hashtable<String, CasProductType> metaDataItems = cpm.getProductTypeMetaData(policyName, productTypeName);
+		metaDataItems = cpm.getProductTypeMetaData(policyName, productTypeName);
 		
-		// get metadata hash table
+		// get product type metadata for this dataset 
 		CasProductType cpt = (CasProductType) metaDataItems.get(productTypeName);
 		
-		// get all submitted form values
-		Enumeration formKeys = req.getParameterNames();
-		
-		// update metadata value from POST form
-		String keyName;
-	    while (formKeys.hasMoreElements()) {
-	      String keyField = (String)formKeys.nextElement();
+		if (action != null) {
+			String key = req.getParameter("key");
+			String value = req.getParameter("value");
+			
+			if (action.toLowerCase().equals("newkey")) {
+				if (key != null && !cpt.containsMetaDataKey(key)) {
+					cpt.setMetaDataValue(key, value);
+				} 
+				else {
+					//System.out.println("[debug]: key "+key+" already exists in metadata");
+				}
+			}
+			else if (action.toLowerCase().equals("deletekey")) {
+				if (key != null && cpt.containsMetaDataKey(key)) { 
+					cpt.deleteMetaDataKey(key);  
+					//System.out.println("[debug]: key "+key+" is deleted from metadata");
+				}
+				else {
+					//System.out.println("[debug]: no such key as "+key);
+				}
+			}
+			else if (action.toLowerCase().equals("savekey")) {
+				if (key != null && cpt.containsMetaDataKey(key)) {
+					cpt.setMetaDataValue(key, value);
+					//System.out.println("[debug]: value for key "+key+", "+value+", is updated in metadata");
+				}
+			}
+			else { 
+				//System.out.println("in SaveAll now...");
+				session.setAttribute("action", "SaveAll");
 
-	      // extract the metadata id from the form field
-	      String [] tokens = keyField.split("_");
-	      if (tokens.length == 2 && cpt.containsMetaDataKey(tokens[1])) {
-	    	  keyName = tokens[1];
-			  // get the submitted values for that key
-		      String [] formValues = req.getParameterValues(keyField);
+				// get all submitted form values
+				Enumeration formKeys = req.getParameterNames();
+				
+				// update metadata value from POST form
+				String keyName;
+			    while (formKeys.hasMoreElements()) {
+			      String keyField = (String)formKeys.nextElement();
 
-		      // save new value	
-		      // PubMedID requires HTML entity encoding because 
-		      // of hyperlinks in the metadata field.
-		      if (keyName.equals("PubMedID")) {
-	    		  cpt.setMetaDataValue(keyName, HTMLEncode.encode(formValues[0]));
-		      }
-		      else
-		    	  cpt.setMetaDataValue(keyName, formValues[0]);
-	      }
-	    }
-	    
-	    // build policy file path
-		String policyDirectory = "/usr/local/ecas/filemgr/policy";
-		String policyPath = policyDirectory;
-		String policyFile = policyPath + "/" + policyName + "/product-types.xml";
-		
-		// serialize all CasProductType instances from metaDataItems hashtable
-		PrintWriter pw = new PrintWriter(new File(policyFile));
-		pw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		pw.write("\n");
-		pw.write("<cas:producttypes xmlns:cas=\"http://oodt.jpl.nasa.gov/1.0/cas\">\n");
+			      // extract the metadata id from the form field
+			      String [] tokens = keyField.split("_");
+			      if (tokens.length == 2 && cpt.containsMetaDataKey(tokens[1])) {
+			    	  keyName = tokens[1];
+					  // get the submitted values for this key
+				      String [] formValues = req.getParameterValues(keyField);
+				      //System.out.println(keyName + ", "+formValues[0]);
+				      /*
+				       *  PubMedID requires HTML entity encoding because 
+				       *   of hyperlinks in the metadata field.
+				       * --------------------------------------------
+				       * Special handling for PubMedID field disabled
+				       * 08/10/2009. ID values can be entered alone
+				       * and styled/converted to URLs.
+				       * --------------------------------------------
+				       */ 
+				      /*if (keyName.equals("PubMedID")) {
+				    	  System.out.println(keyName +" : "+formValues[0]);
+			    	  	cpt.setMetaDataValue(keyName, HTMLEncode.encode(formValues[0]));	
+				      }
+				      else
+				    	  cpt.setMetaDataValue(keyName, formValues[0]);
+				    	  */
+				      cpt.setMetaDataValue(keyName, formValues[0]);
+			      }
+			    }
+			}
 
-		for ( String s : metaDataItems.keySet()) {
-			// generate XML string
-			CasProductType tmpCpt = metaDataItems.get(s); 
-			String xmlString = tmpCpt.toXMLString();
-			pw.write(xmlString);
+		    // build policy file path
+			String policyDirectory = "/usr/local/ecas/filemgr/policy";
+			String policyPath = policyDirectory;
+			String policyFile = policyPath + "/" + policyName + "/product-types.xml";
+			
+			// serialize all CasProductType instances from metaDataItems hashtable
+			PrintWriter pw = new PrintWriter(new File(policyFile));
+			pw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			pw.write("\n");
+			pw.write("<cas:producttypes xmlns:cas=\"http://oodt.jpl.nasa.gov/1.0/cas\">\n");
+	
+			for ( String s : metaDataItems.keySet()) {
+				// generate XML string
+				CasProductType tmpCpt = metaDataItems.get(s); 
+				String xmlString = tmpCpt.toXMLString();
+				pw.write(xmlString);
+			}
+			pw.flush();
+			pw.write("</cas:producttypes>\n");
+			pw.close();
 		}
-		pw.flush();
-		pw.write("</cas:producttypes>\n");
-		pw.close();
-        
+		
+		// get the metadata for this product type 
+		//Hashtable<String, String> metaData = cpt.getMetaDataHT(); 
+
 		// Transfer control to the next step in the process
 		res.sendRedirect(req.getContextPath() + "/manageDataset.jsp?step=" + step);
 	}
