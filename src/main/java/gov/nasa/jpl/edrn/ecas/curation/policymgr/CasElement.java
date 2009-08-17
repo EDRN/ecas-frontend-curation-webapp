@@ -20,14 +20,7 @@ public class CasElement {
 	protected String name;
 	protected Description desc;
 	
-	/**
-	 * Construct a CasElement with "dummy" values for its id, name, and description.
-	 */
-	CasElement() { 
-		id = new String("ID");
-		name = new String("Name");
-		desc = new Description("Description");
-	}
+	public CasElement() { }
 	
 	/**
 	 * Construct a CasElement with the attributes passed
@@ -55,19 +48,20 @@ public class CasElement {
 		this.id = id;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public void setDescription(String desc) {
-		this.desc.setDescription(desc);
-	}
 	public String getID() {
 		return this.id;
 	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public String getName() {
 		return this.name;
+	}
+	
+	public void setDescription(String desc) {
+		this.desc.setDescription(desc);
 	}
 	
 	public String getDescription() {
@@ -92,7 +86,7 @@ public class CasElement {
 	
 	/**
 	 * Produce an XML fragment of the current CAS element,
-	 * formatted in the <code>element</code> schema used by a metadata 
+	 * formatted in the element schema used by a metadata 
 	 * policy file.
 	 * 
 	 * @return	A Java String storing an XML fragment of the current
@@ -116,12 +110,11 @@ public class CasElement {
 	 * as a class nested within the CasElement wrapper.
 	 * 
 	 * @author aclark
-	 *
 	 */
 	class Description {
 		protected String description;
 		
-		Description(String desc) {
+		public Description(String desc) {
 			description = desc;
 		}
 		

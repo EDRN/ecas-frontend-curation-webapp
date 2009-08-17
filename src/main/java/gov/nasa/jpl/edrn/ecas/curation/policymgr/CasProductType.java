@@ -12,10 +12,16 @@ import org.w3c.dom.Element;
 // JSON formatting classes
 import gov.nasa.jpl.edrn.ecas.curation.util.JSONObject;
 import gov.nasa.jpl.edrn.ecas.curation.util.JSONException;
+import gov.nasa.jpl.edrn.ecas.curation.util.JSONArray;
 
 // XML utility classes 
 import gov.nasa.jpl.oodt.cas.commons.xml.XMLUtils;
 import gov.nasa.jpl.oodt.cas.filemgr.util.XmlStructFactory;
+
+// test of concept
+//import gov.nasa.jpl.oodt.cas.filemgr.structs.ProductType;
+//import gov.nasa.jpl.oodt.cas.metadata.Metadata;
+
 /**
  * CasProductType represents a product type from
  * the policy configuration of a dataset collection.
@@ -24,23 +30,22 @@ import gov.nasa.jpl.oodt.cas.filemgr.util.XmlStructFactory;
  * representations.
  * 
  * @author aclark
- *
  */
 public class CasProductType {
 	// attributes
-	public String id;
-	public String name;
+	protected String id;
+	protected String name;
 	
 	// sub-elements
-	public String versionerClass;
-	public String repositoryPath;
-	public String description;
+	protected String versionerClass;
+	protected String repositoryPath;
+	protected String description;
 	
 	// Stores metadata (key,val) pair
-	public Hashtable<String, String> metadata;
+	protected Hashtable<String, String> metadata;
 	
 	// stores {extractor class name => {property name => property value} }
-	public Hashtable<String, Hashtable<String, String>> configuration;
+	protected Hashtable<String, Hashtable<String, String>> configuration;
 	
 	/**
 	 * Constructor instantiates two internal hashtables
@@ -51,44 +56,44 @@ public class CasProductType {
 		configuration = new Hashtable<String, Hashtable<String, String>>();
 	}
 	
-	public String getId() {
-		return id;
-	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getId() {
+		return id;
 	}
 	
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getVersionerClass() {
-		return versionerClass;
+	}	
+	
+	public String getName() {
+		return name;
 	}
 
 	public void setVersionerClass(String versionerClass) {
 		this.versionerClass = versionerClass;
 	}
-
-	public String getRepositoryPath() {
-		return repositoryPath;
+	
+	public String getVersionerClass() {
+		return versionerClass;
 	}
 
 	public void setRepositoryPath(String repositoryPath) {
 		this.repositoryPath = repositoryPath;
-	}
-
-	public String getDescription() {
-		return description;
+	}	
+	
+	public String getRepositoryPath() {
+		return repositoryPath;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public String getDescription() {
+		return description;
 	}
 
 	/** 
@@ -97,7 +102,6 @@ public class CasProductType {
 	 * 
 	 * @param key	The metadata key
 	 * @param value	The metadata value 
-	 * 
 	 */
 	public void setMetaDataValue(String key, String value) {
 		if (value == null) {
@@ -117,9 +121,12 @@ public class CasProductType {
 		else
 			metadata.put(key, value);
 	}
+
+	public String getMetaDataValue(String key) {
+		return (String)metadata.get(key);
+	}	
 	
 	/**
-	 * 
 	 * @param key	The metadata field to be removed from the current product type.
 	 */
 	public void deleteMetaDataKey(String key) {
@@ -135,14 +142,9 @@ public class CasProductType {
 	 * 
 	 * @return	True if the metadata item exists in the 
 	 * 			metadata catalog. False otherwise.
-	 * 
 	 */
 	public boolean containsMetaDataKey(String key) {
 		return metadata.containsKey(key);
-	}
-	
-	public String getMetaDataValue(String key) {
-		return (String)metadata.get(key);
 	}
 	
 	/**
@@ -152,7 +154,6 @@ public class CasProductType {
 	 *  @param	extractor	The class name of the extractor to be updated.
 	 *  @param	name		The extractor configuration property name.
 	 *  @param	value		The extractor configuration property value.
-	 * 
 	 */
 	public void setConfigurationPropertyValue(String extractor, String name, String value) {
 		if (configuration.containsKey(extractor)) {
@@ -212,23 +213,25 @@ public class CasProductType {
 	 */
 	public String metaDataToJSON() {
 			Iterator iter = metadata.keySet().iterator();
+			JSONArray jsonMetaDataArray = new JSONArray();
 			
-			// May need to adjust this JSON format to have
-			// a top level metadata field.
-			JSONObject mdJSONString = new JSONObject();
-			
-			while (iter.hasNext()) {
-				String key = (String) iter.next();
-				String value = (String) metadata.get(key);
-				
-				try {
-					mdJSONString.put(key, value);
-				} 
-				catch (JSONException e) {
-					System.out.println("JSON Exception caught in metaDataToJSON()" + e);
+			try {
+    			while (iter.hasNext()) {
+    			    JSONObject jsonPair = new JSONObject();
+    				String key = (String) iter.next();
+    				String value = (String) metadata.get(key);
+    				
+    				jsonPair.put("key", key);
+    				jsonPair.put("value", value);
+    				
+    				jsonMetaDataArray.put(jsonPair);
 				}
+                return new JSONObject().put("metadata", jsonMetaDataArray).toString();    			
 			}
-			return mdJSONString.toString();
+			catch (JSONException e) {
+				System.out.println("JSON Exception caught in metaDataToJSON()" + e);
+				return "{ }";
+			}
 		}
 		
 	/**

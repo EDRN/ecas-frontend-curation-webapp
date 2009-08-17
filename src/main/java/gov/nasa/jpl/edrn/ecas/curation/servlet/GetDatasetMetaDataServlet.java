@@ -17,15 +17,13 @@ import javax.servlet.http.HttpSession;
 import java.util.Hashtable;
 
 /**
- * Responds to GET requests sent from the eCAS Curator frontend to 
- * return a set of metadata key-value pairs for the requested 
+ * Returns a set of metadata key-value pairs for the requested 
  * dataset and dataset collection in either JSON or XML format. 
  * 
  * @author aclark
- *
  */
 public class GetDatasetMetaDataServlet extends HttpServlet {
-	// Need Serial UID
+	// Need serialVersionUID
 	
 	public GetDatasetMetaDataServlet() { } 
 	
@@ -52,7 +50,6 @@ public class GetDatasetMetaDataServlet extends HttpServlet {
 			res.sendRedirect("/login.jsp?from=" + req.getRequestURL());
 			return;
 		}
-		HttpSession session = req.getSession();
 
 		// read API parameters from session
 		String policyName = req.getParameter("dsCollection");
@@ -64,6 +61,7 @@ public class GetDatasetMetaDataServlet extends HttpServlet {
 		CurationPolicyManager cpm = new CurationPolicyManager();
 		Hashtable<String, CasProductType> metaDataItems = cpm.getProductTypeMetaData(policyName, productTypeName);
 		
+		// retrieve product type instance for specified dataset
 		CasProductType cpt = (CasProductType) metaDataItems.get(productTypeName);		
 		
 		PrintWriter out = new PrintWriter(res.getWriter());
@@ -82,10 +80,11 @@ public class GetDatasetMetaDataServlet extends HttpServlet {
 	}
 
 	/**
-	 * Gets a String in XML format containing the metdata items for the
-	 * Product Type passed as an argument.
+	 * Returns an XML structure in String format containing the metadata 
+	 * items for the Product Type passed as an argument.
 	 * 
-	 * @param c	The CasProductType containing metadata items.
+	 * @param c	The CasProductType containing metadata items to be converted
+	 * 			to XML.
 	 * @return	A String containing the XML structure of metadata key-value 
 	 * 			pairs from the CasProductType.
 	 */
@@ -97,8 +96,8 @@ public class GetDatasetMetaDataServlet extends HttpServlet {
 	}
 	
 	/**
-	 * Get a String in JSON format containing the metadata items
-	 * for the current Product Type.
+	 * Returns a JSON-formatted String containing the metadata items
+	 * for the Product Type passed as an argument.
 	 * 
 	 * @param c	The CasProductType object containing metadata to be
 	 * 			converted to JSON output.

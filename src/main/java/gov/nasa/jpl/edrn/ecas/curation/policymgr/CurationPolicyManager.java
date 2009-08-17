@@ -146,6 +146,14 @@ public class CurationPolicyManager {
 		return buf;
 	}	
 	
+	/**
+	 * Gets a hash table of the metadata items from the product 
+	 * type of a given dataset collection.
+	 *
+	 * @param policyName The name of the dataset collection.
+	 * @param ProductTypeName The name of the product type. 	
+	 * @return A hashtable of metadata items.
+	 */
 	public Hashtable getProductTypeMetaData(String policyName, String ProductTypeName) {
 		String policyPath = policyDirectory;
 		String policyFile = policyPath + "/" + policyName + "/product-types.xml";
