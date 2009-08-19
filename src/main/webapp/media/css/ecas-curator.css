@@ -76,3 +76,8 @@ div.growlUI h2 {
 	text-align:left;
 	padding-left:8px;
 }
+
+/* translation styles */
+td.value span {
+	display:none;
+}

@@ -1,3 +1,9 @@
+/* 
+ *  Copyright (c) 2009, California Institute of Technology. 
+ *  ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
+ * 
+ *  Author: Andrew Clark
+ */
 package gov.nasa.jpl.edrn.ecas.curation.servlet;
 
 import gov.nasa.jpl.edrn.ecas.curation.policymgr.CurationPolicyManager;
@@ -60,6 +66,11 @@ public class UpdateDatasetMetaDataServlet extends HttpServlet {
 		String action = req.getParameter("action");
 		String step = req.getParameter("step");
 		
+		// check for session timeout or missing parameter
+		if (policyName==null || productTypeName==null ||
+		    action==null || step==null) {
+		    res.sendRedirect(req.getContextPath() + "/home.jsp");
+		}
 		//----------------------------------------
 		// instantiate product type object 
 		CurationPolicyManager cpm = new CurationPolicyManager();
@@ -74,7 +85,10 @@ public class UpdateDatasetMetaDataServlet extends HttpServlet {
 			
 			if (action.toLowerCase().equals("newkey")) {
 				if (key != null && !cpt.containsMetaDataKey(key)) {
-					cpt.setMetaDataValue(key, value);
+				    if (value.equals(""))
+				        cpt.setMetaDataValue(key, "TBD");
+				    else 
+				        cpt.setMetaDataValue(key, value);
 				} 
 				else {
 					//System.out.println("[debug]: key "+key+" already exists in metadata");
@@ -106,30 +120,13 @@ public class UpdateDatasetMetaDataServlet extends HttpServlet {
 				String keyName;
 			    while (formKeys.hasMoreElements()) {
 			      String keyField = (String)formKeys.nextElement();
-
 			      // extract the metadata id from the form field
 			      String [] tokens = keyField.split("_");
-			      if (tokens.length == 2 && cpt.containsMetaDataKey(tokens[1])) {
+			      if (tokens.length == 2 && "value".equals(tokens[0]) && cpt.containsMetaDataKey(tokens[1])) {
 			    	  keyName = tokens[1];
 					  // get the submitted values for this key
 				      String [] formValues = req.getParameterValues(keyField);
 				      //System.out.println(keyName + ", "+formValues[0]);
-				      /*
-				       *  PubMedID requires HTML entity encoding because 
-				       *   of hyperlinks in the metadata field.
-				       * --------------------------------------------
-				       * Special handling for PubMedID field disabled
-				       * 08/10/2009. ID values can be entered alone
-				       * and styled/converted to URLs.
-				       * --------------------------------------------
-				       */ 
-				      /*if (keyName.equals("PubMedID")) {
-				    	  System.out.println(keyName +" : "+formValues[0]);
-			    	  	cpt.setMetaDataValue(keyName, HTMLEncode.encode(formValues[0]));	
-				      }
-				      else
-				    	  cpt.setMetaDataValue(keyName, formValues[0]);
-				    	  */
 				      cpt.setMetaDataValue(keyName, formValues[0]);
 			      }
 			    }
@@ -146,7 +143,7 @@ public class UpdateDatasetMetaDataServlet extends HttpServlet {
 			pw.write("\n");
 			pw.write("<cas:producttypes xmlns:cas=\"http://oodt.jpl.nasa.gov/1.0/cas\">\n");
 	
-			for ( String s : metaDataItems.keySet()) {
+			for (String s : metaDataItems.keySet()) {
 				// generate XML string
 				CasProductType tmpCpt = metaDataItems.get(s); 
 				String xmlString = tmpCpt.toXMLString();
@@ -157,21 +154,25 @@ public class UpdateDatasetMetaDataServlet extends HttpServlet {
 			pw.close();
 		}
 		
-		// get the metadata for this product type 
-		//Hashtable<String, String> metaData = cpt.getMetaDataHT(); 
-
 		// Transfer control to the next step in the process
-		res.sendRedirect(req.getContextPath() + "/manageDataset.jsp?step=" + step);
+		if (req.getParameter("output").equals("json"))
+		    return;
+		else
+		    res.sendRedirect(req.getContextPath() + "/manageDataset.jsp?step=" + step);
 	}
 
 	// Handle HTTP GET requests by forwarding to a common processor
 	public void doGet(HttpServletRequest req, HttpServletResponse res) 
 	  throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		session.setAttribute("errorMsg","You must use POST to access this page");
-		RequestDispatcher dispatcher = 
-			getServletContext().getRequestDispatcher("/error.jsp");
-		dispatcher.forward(req,res);
+	    // call GET handler for POST request
+        doPost(req, res);
+	    /*
+    		HttpSession session = req.getSession();
+    		session.setAttribute("errorMsg","You must use POST to access this page");
+    		RequestDispatcher dispatcher = 
+    			getServletContext().getRequestDispatcher("/error.jsp");
+    		dispatcher.forward(req,res);
+		*/
 	}
 	
 }

@@ -1,14 +1,10 @@
-package gov.nasa.jpl.edrn.ecas.curation.policymgr;
-
 /* 
- * TODO add generic types to Hashtable usage/eliminate unchecked exception warnings
- * TODO implement hashcode as: id string .hashcode()
- * TODO implement equals as: id string .equals()
- * TODO add toElement/DocumentFragment method?
- * TODO add toJSON method?
- * TODO handle exceptions?
- * TODO expand javadoc comments
+ *  Copyright (c) 2009, California Institute of Technology. 
+ *  ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
+ * 
+ *  Author: Andrew Clark
  */
+package gov.nasa.jpl.edrn.ecas.curation.policymgr;
 /**
  * Represents a single metadata element of an 
  * eCAS dataset metadata policy.

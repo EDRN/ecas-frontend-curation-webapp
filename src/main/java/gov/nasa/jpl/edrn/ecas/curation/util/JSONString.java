@@ -1,3 +1,9 @@
+/* 
+ *  Copyright (c) 2009, California Institute of Technology. 
+ *  ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
+ * 
+ *  Author: Andrew Clark
+ */
 package gov.nasa.jpl.edrn.ecas.curation.util;
 
 /**

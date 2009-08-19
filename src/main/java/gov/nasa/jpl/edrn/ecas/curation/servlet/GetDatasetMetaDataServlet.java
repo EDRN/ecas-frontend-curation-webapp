@@ -1,3 +1,9 @@
+/* 
+ *  Copyright (c) 2009, California Institute of Technology. 
+ *  ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
+ * 
+ *  Author: Andrew Clark
+ */
 package gov.nasa.jpl.edrn.ecas.curation.servlet;
 
 import gov.nasa.jpl.edrn.ecas.curation.policymgr.CurationPolicyManager;
@@ -23,7 +29,6 @@ import java.util.Hashtable;
  * @author aclark
  */
 public class GetDatasetMetaDataServlet extends HttpServlet {
-	// Need serialVersionUID
 	
 	public GetDatasetMetaDataServlet() { } 
 	
@@ -32,8 +37,8 @@ public class GetDatasetMetaDataServlet extends HttpServlet {
 	} 
 	
 	/** 
-	 * POST requests are not supported but will be passed
-	 * to the GET handler unofficially.
+	 * POST requests will be passed
+	 * to the GET handler.
 	 */
 	public void doPost (HttpServletRequest req, HttpServletResponse res) 
 	  throws ServletException, IOException {
@@ -57,6 +62,11 @@ public class GetDatasetMetaDataServlet extends HttpServlet {
 		String returnFormat = req.getParameter("format");
 		String step = req.getParameter("step");
 
+        // check for session timeout or missing parameter
+        if (policyName==null || productTypeName==null) {
+            res.sendRedirect(req.getContextPath() + "/home.jsp");
+        }		
+		
 		// instantiate product type object 
 		CurationPolicyManager cpm = new CurationPolicyManager();
 		Hashtable<String, CasProductType> metaDataItems = cpm.getProductTypeMetaData(policyName, productTypeName);

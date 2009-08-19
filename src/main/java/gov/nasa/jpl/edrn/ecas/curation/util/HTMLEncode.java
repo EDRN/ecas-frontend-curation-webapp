@@ -1,11 +1,13 @@
-//Copyright (c) 2005, California Institute of Technology.
-//ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
-//
-//$Id$
+/* 
+ *  Copyright (c) 2009, California Institute of Technology. 
+ *  ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
+ * 
+ *  Added to eCAS Curator project 07/28/2009 by aclark
+ *  Author: Andrew Clark
+ */
 
-// Added to eCAS Curator project 07/28/2009 by aclark
-
-/*
+/* original header comment follows:
+ *
  *  Java HTML Tidy - JTidy
  *  HTML parser and pretty printer
  *

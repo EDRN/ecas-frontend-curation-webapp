@@ -1,3 +1,9 @@
+/* 
+ *  Copyright (c) 2009, California Institute of Technology. 
+ *  ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
+ * 
+ *  Author: Andrew Clark
+ */
 package gov.nasa.jpl.edrn.ecas.curation.policymgr;
 
 import java.util.Hashtable;
@@ -13,14 +19,6 @@ import org.w3c.dom.Element;
 import gov.nasa.jpl.edrn.ecas.curation.util.JSONObject;
 import gov.nasa.jpl.edrn.ecas.curation.util.JSONException;
 import gov.nasa.jpl.edrn.ecas.curation.util.JSONArray;
-
-// XML utility classes 
-import gov.nasa.jpl.oodt.cas.commons.xml.XMLUtils;
-import gov.nasa.jpl.oodt.cas.filemgr.util.XmlStructFactory;
-
-// test of concept
-//import gov.nasa.jpl.oodt.cas.filemgr.structs.ProductType;
-//import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 
 /**
  * CasProductType represents a product type from
