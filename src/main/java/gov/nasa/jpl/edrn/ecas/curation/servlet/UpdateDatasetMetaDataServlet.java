@@ -117,7 +117,7 @@ public class UpdateDatasetMetaDataServlet extends HttpServlet {
                     String keyField = (String) formKeys.nextElement();
                     // extract the metadata id from the form field
                     String[] tokens = keyField.split("_");
-                    if (tokens.length == 2 && "value".equals(tokens[0])
+                    if (tokens.length == 2 && tokens[0].equals("value")
                             && cpt.containsMetaDataKey(tokens[1])) {
                         keyName = tokens[1];
                         // get the submitted values for this key
@@ -139,8 +139,7 @@ public class UpdateDatasetMetaDataServlet extends HttpServlet {
             PrintWriter pw = new PrintWriter(new File(policyFile));
             pw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
             pw.write("\n");
-            pw
-                    .write("<cas:producttypes xmlns:cas=\"http://oodt.jpl.nasa.gov/1.0/cas\">\n");
+            pw.write("<cas:producttypes xmlns:cas=\"http://oodt.jpl.nasa.gov/1.0/cas\">\n");
 
             for (String s : metaDataItems.keySet()) {
                 // generate XML string
@@ -154,7 +153,7 @@ public class UpdateDatasetMetaDataServlet extends HttpServlet {
         }
 
         // Transfer control to the next step in the process
-        if (req.getParameter("output").equals("json"))
+        if (req.getParameter("output")!=null && req.getParameter("output").equals("json"))
             return;
         else
             res.sendRedirect(req.getContextPath() + "/manageDataset.jsp?step="
