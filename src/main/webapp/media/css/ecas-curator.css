@@ -77,7 +77,30 @@ div.growlUI h2 {
 	padding-left:8px;
 }
 
-/* translation styles */
-td.value span {
+
+
+/* 
+ * ManageDatasetMetadata styles 
+ */
+
+table#metaDataEditor td.value span {
 	display:none;
+}
+
+table#metaDataEditor input[type=text],
+	table#metaDataEditor textarea {
+	border:solid 1px #ccc;	
+	width:80%;
+	padding:4px;
+}
+
+table#metaDataEditor {
+	width:100%;
+}
+
+table#metaDataEditor tr td.label {
+	width:20%;
+	padding:8px;
+	padding-right:15px;
+	text-align:right;
 }

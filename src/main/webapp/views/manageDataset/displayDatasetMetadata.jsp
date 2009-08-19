@@ -67,6 +67,7 @@ $(document).ready(function() {
 	$("td.value.translatable > input:text").blur(do_blur_translation);	
 });
 
+
 function do_focus_translation() {
 	myId = $(this).attr('id');
 	fieldname = myId.split("_")[1];
