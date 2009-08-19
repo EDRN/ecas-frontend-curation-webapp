@@ -3,7 +3,6 @@
 	import="java.io.BufferedReader"
 	import="java.io.InputStreamReader"
 	import="java.net.URL"
-	import="java.net.MalformedURLException"
 %>
 <%
 	/*
@@ -11,7 +10,11 @@
 	 * Simple behind-the-scenes translation service to query
 	 * ecas-services on tumor and pass along the translated 
 	 * return value from the corresponding service to the 
-	 * eCAS Curator frontend.
+	 * eCAS Curator frontend. 
+	 *
+	 * This is a workaround for the problem of trying 
+	 * to make a cross-site GET/POST request with jQuery 
+	 * from the curator app to ecas-services.
 	 *
 	 * Author: ahart, aclark
 	 */
@@ -31,7 +34,8 @@
 	String uri = (String)request.getParameter("uri");
 	
 	try {
-		URL serviceCall = new URL("http://tumor.jpl.nasa.gov/ecas-services/"+uri+"?id="+id);
+		URL serviceCall = new URL("http://tumor.jpl.nasa.gov/ecas-services/" 
+		        				   + uri + "?id=" + id);
 	    BufferedReader br = new BufferedReader(
     	        			new InputStreamReader(
     	        			 serviceCall.openStream()));

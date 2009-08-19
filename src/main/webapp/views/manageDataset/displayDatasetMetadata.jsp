@@ -1,6 +1,7 @@
 <%@ page
 	import="java.io.File"
-	import="java.io.*"
+	import="java.io.BufferedReader"
+	import="java.io.InputStreamReader"
 	import="java.net.URL"
 	import="java.net.MalformedURLException"
 	import="java.util.List"
@@ -14,17 +15,16 @@
 	import="gov.nasa.jpl.edrn.ecas.curation.policymgr.CasProductType"
 	import="gov.nasa.jpl.edrn.ecas.curation.util.HTMLEncode"
 %>
-
 <%! 
 	/**
 	 *	getServices retrieves a list of translation services available
 	 *	from ecas-services and checks incoming metadata items for 
 	 * 	any fields with ID values that can be mapped to names using
-	 *	a correspoding service. 
+	 *	a corresponding service. 
 	 *
 	 *	@param URL The path to the services.txt file containing 
 	 *				the eCAS service to URI definitions.
-	 *	@return	A hashtable mapping service names (field names) 
+	 *	@return	A hashtable mapping service names  
 	 *			to the corresponding service module offered through
 	 *			ecas-services.
 	 */
@@ -187,7 +187,7 @@ function confirmDelete(keyName) {
 						    valueField += "\t\t\t\t<input type=\"text\" id=\"value_" + key 
 						    			  +	"\" name=\"value_" + key  
 						    			  + "\" value=\"" + encodedValue 
-										  + "\" />"; //+ deleteURL +"\r\n\t\t\t\t</td>";
+										  + "\" />";
 						}
 						else {
 						    int cols = 80;
@@ -195,7 +195,7 @@ function confirmDelete(keyName) {
 						    valueField += "\t\t\t\t<textarea id=\"value_" + key + "\" "
 						    			  + "name=\"value_" + key + "\" "
 						    			  + "rows=\"" + rows + "\" cols=\"" + cols + "\">" 
-						    			  + value + "</textarea>"; //+ deleteURL +"</td>";
+						    			  + value + "</textarea>";
 						}
 
 						String scratchField = "\t\t\t\t<input type=\"text\" id=\"scratch_" + key + "\""
@@ -243,7 +243,7 @@ function confirmDelete(keyName) {
 						out.println("</td>");
 						out.println("\t\t</tr>");
 						
-						// switch even/odd row 
+						// switch even/odd row class
 						even_row = 1 - even_row;
 					}
 				} else {
