@@ -61,9 +61,17 @@
 %>
 <script type="text/javascript" src="js/jquery/jquery.js"></script>
 <script type="text/javascript">
+
 $(document).ready(function() {
 	initial_translation();
-	$("td.value.translatable > input:text").focus(do_focus_translation);	
+	$("td.value.translatable > input:text")
+		.focus(do_focus_translation)
+		.keypress(function(e) {
+			if (e.which == 13) {
+				return false;		// Prevent default enter key since user probably
+									// doesn't want the form to be submitted here
+			}
+		});
 	$("td.value.translatable > input:text").blur(do_blur_translation);	
 });
 
@@ -125,6 +133,11 @@ function confirmDelete(keyName) {
 <div class="wizardContent">
 	<h4>Dataset Metadata For: <%=session.getAttribute("dsCollection") %> / <%=session.getAttribute("ds") %></h4>
 	<div>
+	<div class="info">
+	Edit the contents of dataset-level meta-data elements. Some values may have automatically generated translations. 
+	For these, specifying an ID and clicking outside of the box will result in the translation automatically being 
+	fetched and saved.
+	</div>
 		<form action="updateDatasetMetaData" method="post"> 
 		<table id="metaDataEditor">
 		<%
@@ -282,11 +295,14 @@ function confirmDelete(keyName) {
 				
 				// hide the Save Changes button if no metadata is found
 				if (metaData.size() > 0) {
+					out.println("\t\t<div class=\"submitButton\">");
 					out.println("\t\t<input type=\"hidden\" name=\"dsCollection\" value=\""+ policyName +"\"/>");
 					out.println("\t\t<input type=\"hidden\" name=\"ds\" value=\""+ productTypeName + "\"/>");
 					out.println("\t\t<input type=\"hidden\" name=\"step\" value=\"displayDatasetMetadata\"/>");
 					out.println("\t\t<input type=\"hidden\" name=\"action\" value=\"SaveAll\"/>");
 					out.println("\t\t<br><input type=\"submit\" id=\"submitButton\" value=\"Save all changes\"/>");
+					out.println("\t\t&nbsp;Click here to save any changes made to this form");
+					out.println("\t\t</div>");
 				}
 				out.println("\t\t</form>");	
 			%> 			
