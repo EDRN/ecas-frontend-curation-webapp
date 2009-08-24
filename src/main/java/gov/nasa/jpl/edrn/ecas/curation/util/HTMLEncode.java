@@ -1,13 +1,6 @@
-/* 
- *  Copyright (c) 2009, California Institute of Technology. 
- *  ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
+/*
+ * Added 07/28/2009 by aclark
  * 
- *  Added to eCAS Curator project 07/28/2009 by aclark
- *  Author: Andrew Clark
- */
-
-/* original header comment follows:
- *
  *  Java HTML Tidy - JTidy
  *  HTML parser and pretty printer
  *
@@ -61,6 +54,9 @@
  *  acknowledgment is not required but would be appreciated.
  *
  */
+
+//package org.w3c.tidy.servlet.util;
+
 package gov.nasa.jpl.edrn.ecas.curation.util;
 
 import java.lang.reflect.Method;

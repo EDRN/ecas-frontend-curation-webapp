@@ -51,15 +51,6 @@
     	<servlet-class>gov.nasa.jpl.edrn.ecas.curation.servlet.UpdateDatasetMetaDataServlet</servlet-class>
     </servlet>
 
-    <servlet>
-    	<servlet-name>GetDatasetMetaDataServlet</servlet-name>
-    	<servlet-class>gov.nasa.jpl.edrn.ecas.curation.servlet.GetDatasetMetaDataServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-    	<servlet-name>GetDatasetMetaDataServlet</servlet-name>
-    	<url-pattern>/getDatasetMetaData</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
     	<servlet-name>UpdateDatasetMetaDataServlet</servlet-name>
     	<url-pattern>/updateDatasetMetaData</url-pattern>

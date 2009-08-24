@@ -28,7 +28,7 @@
 
 	<div>
 		<form action="manageDataset.jsp" method="POST">
-			<input type="hidden" name="step" value="displayDatasetMetadata" />
+			<input type="hidden" name="step" value="displayDatasetMetadata"/>
 			<table style="border:solid 1px #ccc;width:470px;">
 			  <tr><td style="width:190px;">Selected Dataset Collection: </td><td><%=session.getAttribute("dsCollection") %> <a class="actionlink" href="manageDataset.jsp">change</a></td></tr>
 			  <tr><td>Selected Dataset:</td><td style="padding-right:9px;"><input type="text" id="ds" name="ds" value="select from list below..." style="width:100%;border-width:1px;border-color:#ccc;padding:3px;"/></td></tr>
