@@ -1,4 +1,4 @@
-package gov.nasa.jpl.edrn.ecas.curation.test;
+package gov.nasa.jpl.edrn.ecas.curation.util;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -18,7 +18,7 @@ public class UtilTest
         return new TestSuite( UtilTest.class );
     }
 
-    public void testBackendApp()
+    public void testUtil()
     {
     	assertTrue( true );
     }
