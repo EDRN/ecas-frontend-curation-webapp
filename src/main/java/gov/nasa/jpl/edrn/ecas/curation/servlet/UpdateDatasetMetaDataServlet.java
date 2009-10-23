@@ -1,5 +1,6 @@
 package gov.nasa.jpl.edrn.ecas.curation.servlet;
 
+import gov.nasa.jpl.edrn.ecas.backend.EDRNFileManagerClient;
 import gov.nasa.jpl.edrn.ecas.curation.policymgr.CurationPolicyManager;
 import gov.nasa.jpl.edrn.ecas.curation.policymgr.CasProductType;
 import gov.nasa.jpl.edrn.security.SingleSignOn;
@@ -7,6 +8,7 @@ import gov.nasa.jpl.edrn.security.SingleSignOn;
 import java.io.IOException;
 import java.io.File;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -20,6 +22,9 @@ import javax.servlet.http.HttpSession;
 
 // JTidy utility class
 import gov.nasa.jpl.edrn.ecas.curation.util.HTMLEncode;
+import gov.nasa.jpl.oodt.cas.filemgr.structs.exceptions.ConnectionException;
+import gov.nasa.jpl.oodt.cas.filemgr.structs.exceptions.RepositoryManagerException;
+import gov.nasa.jpl.oodt.cas.metadata.util.PathUtils;
 
 /**
  * This servlet processes form data submitted via
@@ -117,6 +122,27 @@ public class UpdateDatasetMetaDataServlet extends HttpServlet {
 		pw.write("</cas:producttypes>\n");
 		pw.close();
         
+		// when we update the metadata we need to bounce the FM so that the browser 
+		// knows about it
+		
+		// need to update properties here...
+		
+		String pathKeyName = "gov.nasa.jpl.edrn.ecas.url";
+		String filemgrURL = PathUtils.replaceEnvVariables(getServletContext().getInitParameter(pathKeyName));
+		
+	    // bounce filemanager here
+		
+	    URL url = new URL(filemgrURL);
+	    try {
+			EDRNFileManagerClient FmClient = new EDRNFileManagerClient(url);
+			FmClient.bounce();
+		} catch (ConnectionException e) {
+			e.printStackTrace();
+		} catch (RepositoryManagerException e) {
+			e.printStackTrace();
+		}
+		
+		
 		// Transfer control to the next step in the process
 		res.sendRedirect(req.getContextPath() + "/manageDataset.jsp?step=" + step);
 	}

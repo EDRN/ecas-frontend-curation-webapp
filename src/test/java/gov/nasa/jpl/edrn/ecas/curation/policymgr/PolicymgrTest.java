@@ -7,7 +7,7 @@ import junit.framework.TestSuite;
 import gov.nasa.jpl.edrn.ecas.curation.policymgr.CasElement;
 import gov.nasa.jpl.edrn.ecas.curation.policymgr.CasProductType;
 import gov.nasa.jpl.edrn.ecas.curation.policymgr.CurationPolicyManager;
-import gov.nasa.jpl.edrn.ecas.curation.policymgr.CurationPolicyValidator;
+// import gov.nasa.jpl.edrn.ecas.curation.policymgr.CurationPolicyValidator;
 import gov.nasa.jpl.edrn.ecas.curation.policymgr.XMLMetaDataParser;
 
 public class PolicymgrTest 
@@ -29,7 +29,7 @@ public class PolicymgrTest
     	CasElement e = new CasElement();
     	CasProductType p = new CasProductType();
     	CurationPolicyManager cpm = new CurationPolicyManager();
-    	CurationPolicyValidator cpv = new CurationPolicyValidator();
+    	// CurationPolicyValidator cpv = new CurationPolicyValidator();
     	// XMLMetaDataParser xmdp = new XMLMetaDataParser("");
     	
     	assertTrue( true );
