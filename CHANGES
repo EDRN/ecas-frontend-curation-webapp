@@ -1,6 +1,24 @@
 EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+
+Release Notes - Early Detection of Cancer - Version eCAS Curator beta 0.1.3 release - 11/11/2009
+
+
+
+** Improvement
+    * [CA-431] - bounce FM after update to metadata
+
+** New Feature
+    * [CA-385] - Dataset metadata management actions as web API
+    * [CA-388] - eCAS Curator frontend metadata management interface
+
+** Task
+    * [CA-255] - revisit ecas installer for quick and desployment of ecas releases
+    * [CA-432] - Alvin Liu & Beth Unger metadata template
+
+
+
 Release Notes - Early Detection of Cancer - Version eCAS Curator beta 0.1.2 release - 08/24/2009
 
 
