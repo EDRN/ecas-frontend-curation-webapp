@@ -3,7 +3,7 @@
 // Copyright (c) 2008, California Institute of Technology.
 // ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
 
-// $Id: cas-curator-header.jsp 376 2009-11-24 20:19:52Z pramirez $
+// $Id$
 
 	// Set up parameters for single signon authentication
 	SingleSignOn auth = SSOUtils.getWebSingleSignOn(application, request, response);
