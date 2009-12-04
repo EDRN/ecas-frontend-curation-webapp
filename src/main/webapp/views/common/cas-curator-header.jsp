@@ -1,4 +1,8 @@
 <%@page import="gov.nasa.jpl.oodt.cas.security.sso.SingleSignOn"%>
+<!-- 
+eCAS curator Release Information:
+$Id$
+ -->
 <%
 // Copyright (c) 2008, California Institute of Technology.
 // ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
