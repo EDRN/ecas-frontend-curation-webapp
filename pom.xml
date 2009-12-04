@@ -12,7 +12,7 @@
   <groupId>gov.nasa.jpl.edrn</groupId>
   <artifactId>ecas-curation</artifactId>
   <packaging>war</packaging>
-  <version>0.1</version>
+  <version>1.0.0-dev</version>
   <name>eCAS Curation Interface</name>
   <url>http://cancer.jpl.nasa.gov/ecas-curator/</url>
   <description>A web application for managing policy for products and files and metadata that have been ingested via the eCAS component.</description>
@@ -27,16 +27,6 @@
 	  <target>1.5</target>
 	</configuration>
       </plugin> 
-      <plugin>
-	<groupId>org.codehaus.mojo</groupId>
-	<artifactId>tomcat-maven-plugin</artifactId>
-	<configuration>
-	  <warFile>target/ecas-curation-0.1.0-dev.war</warFile>
-	  <url>http://tumor.jpl.nasa.gov/ecas-curation/</url>
-	  <source>1.5</source>
-	  <target>1.5</target>
-	</configuration>
-      </plugin>
     </plugins>
   </build>
 
@@ -57,47 +47,16 @@
   </repositories>
 
   <dependencies>
-
-	<dependency>
-		<groupId>commons-fileupload</groupId>
-		<artifactId>commons-fileupload</artifactId>
-		<version>1.2.1</version>
-	</dependency>
-	<dependency>
-		<groupId>commons-io</groupId>
-		<artifactId>commons-io</artifactId>
-		<version>1.3.2</version>
-	</dependency>
-	<dependency>
-	    <groupId>commons-lang</groupId>
-	    <artifactId>commons-lang</artifactId>
-	    <version>2.3</version>
-	</dependency>
-    <dependency>
-       <groupId>servletapi</groupId>
-       <artifactId>servletapi</artifactId>
-       <version>2.4</version>
-       <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>gov.nasa.jpl.oodt</groupId>
-      <artifactId>cas-filemgr</artifactId>
-      <version>1.7.0</version>
+      <artifactId>cas-curator</artifactId>
+      <version>1.0.0</version>
+      <type>war</type>
     </dependency>
     <dependency>
       <groupId>gov.nasa.jpl.edrn</groupId>
       <artifactId>edrn-security</artifactId>
       <version>1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>gov.nasa.jpl.edrn</groupId>
-      <artifactId>ecas-backend</artifactId>
-      <version>0.1.0-dev</version>
-    </dependency>
-    <dependency>
-      <groupId>gov.nasa.jpl.oodt</groupId>
-      <artifactId>cas-crawler</artifactId>
-      <version>2.2.1</version>
     </dependency>
   </dependencies>
 
