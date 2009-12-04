@@ -3,17 +3,34 @@
 // ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
 // 
 // $Id$
--->
-   
-<Context path="/ecas-curation" docBase="/usr/local/ecas-curator/ecas-curation-0.1.war">
+-->   
+<Context path="/ecas-curation">
 
-	<Parameter name="gov.nasa.jpl.edrn.ecas.metExtractorConf.uploadPath"
-		value="[EDRN_ECAS_HOME]/aux/met_def/ecas_curator" />
+    <Parameter name="gov.nasa.jpl.oodt.cas.curator.projectName"
+        value="EDRN eCAS"/>
 
-	<Parameter name="gov.nasa.jpl.edrn.ecas.dataDefinition.uploadPath"
-		value="[EDRN_ECAS_HOME]/filemgr/policy" />
+	<Parameter name="gov.nasa.jpl.oodt.cas.curator.metExtractorConf.uploadPath"
+		value="[EDRN_ECAS_HOME]/aux/met_def/cas_curator" />
+
+	<Parameter name="gov.nasa.jpl.oodt.cas.curator.dataDefinition.uploadPath"
+	    value="[EDRN_ECAS_HOME]/filemgr/policy" />
+    
+    <Parameter name="gov.nasa.jpl.oodt.cas.curator.fmProps"
+        value="[EDRN_ECAS_HOME]/filemgr/etc/filemgr.properties"/>
 		
-	<Parameter name="gov.nasa.jpl.edrn.ecas.url"
+    <Parameter name="gov.nasa.jpl.oodt.cas.curator.stagingAreaPath"
+        value="/data/ingest"/>
+    
+    <Parameter name="gov.nasa.jpl.oodt.cas.curator.metAreaPath"
+        value="[EDRN_ECAS_HOME]/met"/>
+    
+    <Parameter name="gov.nasa.jpl.oodt.cas.curator.metExtension"
+        value=".met"/>
+		
+	<Parameter name="gov.nasa.jpl.oodt.cas.fm.url"
 	    value="http://localhost:9000"/>
+	    
+	<Parameter name="gov.nasa.jpl.oodt.cas.security.sso.implClass"
+	          value="gov.nasa.jpl.edrn.security.SingleSignOn"/>
 
 </Context>
