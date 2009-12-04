@@ -7,7 +7,7 @@
 <Context path="/ecas-curation">
 
     <Parameter name="gov.nasa.jpl.oodt.cas.curator.projectName"
-        value="EDRN eCAS"/>
+        value="EDRN eCAS Curation"/>
 
 	<Parameter name="gov.nasa.jpl.oodt.cas.curator.metExtractorConf.uploadPath"
 		value="[EDRN_ECAS_HOME]/aux/met_def/cas_curator" />
