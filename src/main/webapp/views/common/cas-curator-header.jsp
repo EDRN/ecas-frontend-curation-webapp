@@ -90,24 +90,27 @@ $Id$
 </head>
 <body onload="refreshIngestTaskList();registerIngestionTaskListener();">
 <div id="page">
-	<div id="cas-header">
-		<div id="cas-logo-left"><!--  cas logo lhs --></div>
-		<div id="cas-logo-right"><!-- cas logo rhs --></div>
-		<h2 class="app-title"><%=(projectName != null ? projectName:"")%></h2>
-			<div class="userdetails">
-		      <%=userDetails %>
-		   </div>
+	<div id="edrninformatics" class="cas-header">
+		<div id="edrnlogo" class="cas-logo-left">
+		    <strong>Early Detection Research Network</strong><br/>
+		    <span class="smaller">Division of Cancer Prevention</span>
+	    </div>
+		<div id="edrn-dna" class="cas-logo-right"><!-- dna graphic --></div>
+		<h2 class="app-title">EDRN Biomarker Database</h2>
+		<div class="userdetails">
+			<%=userDetails %>
 		</div>
-	</div>
-	
-	<div class="menu">
-		<!-- Breadcrumbs Area -->
-		<div id="breadcrumbs"/>
-		<div style="margin-left: 10px;padding-left: 10px;">
 
-		<a href="home.jsp">Home</a>&nbsp;<%=breadcrumbString %></div>
+	
+		<div class="menu">
+			<!-- Breadcrumbs Area -->
+			<div id="breadcrumbs">
+				<div style="margin-left: 10px;padding-left: 10px;">
+					<a href="home.jsp">Home</a>&nbsp;<%=breadcrumbString %>
+				</div>
+			</div>
 		</div>
 	</div>
 
 <!-- begin main content -->
-<div style="position:relative;min-height:300px;">
+	<div style="position:relative;min-height:300px;">
