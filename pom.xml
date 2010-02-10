@@ -20,13 +20,29 @@
   <build>
     <plugins>
       <plugin>
-	<groupId>org.apache.maven.plugins</groupId>
-	<artifactId>maven-compiler-plugin</artifactId>
-	<configuration>
-	  <source>1.5</source>
-	  <target>1.5</target>
-	</configuration>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<configuration>
+		  <source>1.5</source>
+		  <target>1.5</target>
+		</configuration>
       </plugin> 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <overlays>
+            <overlay>
+              <id>cas-curator</id>
+              <groupId>gov.nasa.jpl.oodt</groupId>
+              <artifactId>cas-curator</artifactId>
+              <excludes>
+                <exclude>WEB-INF/lib/cas-sso-1.0.0.jar</exclude>
+              </excludes> 
+            </overlay>
+          </overlays>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -51,6 +67,12 @@
       <groupId>gov.nasa.jpl.oodt</groupId>
       <artifactId>cas-curator</artifactId>
       <version>1.0.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>gov.nasa.jpl.oodt</groupId>
+          <artifactId>cas-sso</artifactId>
+        </exclusion>
+      </exclusions>
       <type>war</type>
     </dependency>
     <dependency>
