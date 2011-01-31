@@ -43,5 +43,10 @@
       <artifactId>edrn-security</artifactId>
       <version>1.0</version>
     </dependency>
+    <dependency>
+      <groupId>gov.nasa.jpl.edrn</groupId>
+      <artifactId>ecas-backend</artifactId>
+      <version>0.5.0-dev</version>    
+    </dependency>
   </dependencies>
 </project>
