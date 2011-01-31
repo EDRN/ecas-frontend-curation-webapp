@@ -6,31 +6,31 @@
 -->   
 <Context path="/ecas-curation">
 
-    <Parameter name="gov.nasa.jpl.oodt.cas.curator.projectName"
+    <Parameter name="org.apache.oodt.cas.curator.projectName"
         value="EDRN eCAS Curation"/>
 
-	<Parameter name="gov.nasa.jpl.oodt.cas.curator.metExtractorConf.uploadPath"
+	<Parameter name="org.apache.oodt.cas.curator.metExtractorConf.uploadPath"
 		value="[EDRN_ECAS_HOME]/aux/met_def/cas_curator" />
 
-	<Parameter name="gov.nasa.jpl.oodt.cas.curator.dataDefinition.uploadPath"
+	<Parameter name="org.apache.oodt.cas.curator.dataDefinition.uploadPath"
 	    value="[EDRN_ECAS_HOME]/filemgr/policy" />
     
-    <Parameter name="gov.nasa.jpl.oodt.cas.curator.fmProps"
+    <Parameter name="org.apache.oodt.cas.curator.fmProps"
         value="[EDRN_ECAS_HOME]/filemgr/etc/filemgr.properties"/>
 		
-    <Parameter name="gov.nasa.jpl.oodt.cas.curator.stagingAreaPath"
+    <Parameter name="org.apache.oodt.cas.curator.stagingAreaPath"
         value="/data/ingest"/>
     
-    <Parameter name="gov.nasa.jpl.oodt.cas.curator.metAreaPath"
+    <Parameter name="org.apache.oodt.cas.curator.metAreaPath"
         value="[EDRN_ECAS_HOME]/met"/>
     
-    <Parameter name="gov.nasa.jpl.oodt.cas.curator.metExtension"
+    <Parameter name="org.apache.oodt.cas.curator.metExtension"
         value=".met"/>
 		
-	<Parameter name="gov.nasa.jpl.oodt.cas.fm.url"
+	<Parameter name="org.apache.oodt.cas.fm.url"
 	    value="http://localhost:9000"/>
 	    
-	<Parameter name="gov.nasa.jpl.oodt.cas.security.sso.implClass"
+	<Parameter name="org.apache.oodt.security.sso.implClass"
 	          value="gov.nasa.jpl.edrn.security.SingleSignOn"/>
 
 </Context>

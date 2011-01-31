@@ -1,4 +1,4 @@
-<%@page import="gov.nasa.jpl.oodt.cas.security.sso.SingleSignOn"%>
+<%@page import="org.apache.oodt.security.sso.SingleSignOn"%>
 <!-- 
 eCAS curator Release Information:
 $Id$
@@ -58,19 +58,20 @@ $Id$
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<%@page import="gov.nasa.jpl.oodt.cas.curation.util.SSOUtils"%>
-<%@page import="gov.nasa.jpl.oodt.cas.security.sso.AbstractWebBasedSingleSignOn"%>
-<%@page import="gov.nasa.jpl.oodt.cas.security.sso.SingleSignOn"%>
-<%@page import="gov.nasa.jpl.oodt.cas.curation.servlet.CuratorConfMetKeys"%><html>
+<%@page import="org.apache.oodt.cas.curation.util.SSOUtils"%>
+<%@page import="org.apache.oodt.security.sso.AbstractWebBasedSingleSignOn"%>
+<%@page import="org.apache.oodt.security.sso.SingleSignOn"%>
+<%@page import="org.apache.oodt.cas.curation.servlet.CuratorConfMetKeys"%>
+<html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
 	<!-- CSS Stylesheets -->
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/media/skin/main.css" />
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/media/skin/ui.tabs.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/media/skin/fileTree.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/media/skin/jquery.alerts.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/media/skin/custom/css/edrn-informatics.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/media/skin/curator/css/curator.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/media/skin/editing.css"/>
 
 
@@ -89,23 +90,28 @@ $Id$
 	<title><%=(projectName != null ? projectName+" :: ":"")%>CAS</title>
 </head>
 <body onload="refreshIngestTaskList();registerIngestionTaskListener();">
-<div id="page">
-<div id="edrninformatics" class="cas-header">
-	<div id="edrnlogo" class="cas-logo-left">
-	    <strong>Early Detection Research Network</strong><br/>
-		<span class="smaller">Division of Cancer Prevention</span>
-	 </div>
-
-	<div id="edrn-dna" class="cas-logo-right"><!-- dna graphic --></div>
+<div id="ncibanner">
+	<div id="ncibanner-inner">
+	  <a href="http://www.cancer.gov/"><h2 class="ncilogo">National Cancer Institute</h2></a>
+	  <a href="http://www.cancer.gov/"><h2 class="cdglogo">www.cancer.gov</h2></a>
+	  <a href="http://www.nih.gov/"><h2 class="nihlogo">National Institutes of Health</h2></a>
+	</div>
+</div>
+<br class="clr"/>
+<div id="edrnlogo">
+	<h1 class="header-title">
+		<img id="edrnlogo-logo" src="./media/img/edrn-logo.png"/>Early Detection Research Network</h1>
+	<h2 class="header-title">Research and development of biomarkers and technologies for the clinical application of early cancer detection strategies</h2>
+</div>
+<div id="dcplogo">
+	<a href="http://prevention.cancer.gov"><h2 class="dcplogo">Division of Cancer Prevention</h2></a>
+</div>
+<div class="userdetails"><%=userDetails %></div>
+<div id="edrninformatics">
 	<h2 class="app-title">EDRN eCAS Curation</h2>
-	<div class="userdetails">
-	   <%=userDetails %>
+	<div id="breadcrumbs" class="cas-breadcrumbs">
+	  <a href="./">Home</a>&nbsp;<%=breadcrumbString %>
     </div>
-</div>
-
-<div id="breadcrumbs" class="cas-breadcrumbs">
-<a href="./">Home</a>&nbsp;<%=breadcrumbString %>
-</div>
 
 <!-- begin main content -->
 	<div style="position:relative;min-height:300px;">

@@ -9,7 +9,7 @@
 %>
 
 
-<%@page import="gov.nasa.jpl.oodt.cas.curation.servlet.CuratorConfMetKeys"%>
+<%@page import="org.apache.oodt.cas.curation.servlet.CuratorConfMetKeys"%>
 <jsp:include page="views/common/cas-curator-header.jsp" />
 
 <% String projectName =  application.getInitParameter(CuratorConfMetKeys.PROJECT_DISPLAY_NAME);%>  

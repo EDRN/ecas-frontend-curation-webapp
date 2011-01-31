@@ -13,5 +13,6 @@
 	<a href="http://nih.gov"><img src="<%=request.getContextPath()%>/media/img/footer_nih.gif" style="margin-left:12px;"/></a>
 	<a href="http://usa.gov"><img src="<%=request.getContextPath()%>/media/img/footer_usagov.gif"/></a>
 </div>
+</div>
 </body>
 </html>
