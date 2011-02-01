@@ -2,6 +2,33 @@ EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
 
 
 
+Release Notes - Early Detection of Cancer - Version eCAS Curator beta 0.1.4 release - 01/31/2011
+
+
+** Bug
+    * [CA-324] - multiple /'s being prepened to URL
+    * [CA-364] - Curator webapp Exception when no action selected
+
+** Improvement
+    * [CA-283] - Auto-populate (suggest) the ingestion root path
+    * [CA-304] - Make "leaf notes" in tree control clickable
+    * [CA-386] - Reorganize and clean up eCAS filemgr code for bouncing/curation mgmt
+    * [CA-444] - Upgrade ecas-curator to use cas-curator
+    * [CA-445] - Update eCAS policy files to use post filemgr 1.6.0 style versioner class and repo path
+    * [CA-487] - Upgrade edrn-singlesignon to deal with LDAP groups
+    * [CA-737] - Refactor inline Ant-based deployment of curator met extractors to use external Ant files
+
+** New Feature
+    * [CA-327] - tag in hidden field with release or $Id$ keys
+
+** Task
+    * [CA-300] - backend code to support modifying dataset
+
+
+
+
+
+
 Release Notes - Early Detection of Cancer - Version eCAS Curator beta 0.1.3 release - 11/11/2009
 
 
