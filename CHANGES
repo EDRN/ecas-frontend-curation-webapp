@@ -1,13 +1,13 @@
 EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
 
 
-
 Release Notes - Early Detection of Cancer - Version eCAS Curator beta 0.1.4 release - 01/31/2011
 
 
 ** Bug
     * [CA-324] - multiple /'s being prepened to URL
     * [CA-364] - Curator webapp Exception when no action selected
+    * [CA-738] - Gls and core policy still refer to gov.nasa.jpl
 
 ** Improvement
     * [CA-283] - Auto-populate (suggest) the ingestion root path
@@ -23,9 +23,6 @@ Release Notes - Early Detection of Cancer - Version eCAS Curator beta 0.1.4 rele
 
 ** Task
     * [CA-300] - backend code to support modifying dataset
-
-
-
 
 
 
